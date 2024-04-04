@@ -1,0 +1,30 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+def setup_vm(config, name, ip)
+  config.vm.define name do |machine|
+    machine.vm.box = "generic/alpine319"
+    machine.vm.hostname = name
+    machine.vm.network "private_network", ip: ip, auto_config: false
+
+    machine.vm.provision "shell", run: "always", inline: "ifconfig eth1 #{ip} netmask 255.255.255.0 up"
+
+    machine.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+      vb.customize ["modifyvm", :id, "--name", name]
+      vb.cpus = 1
+      vb.name = name
+      vb.gui = false
+    end
+
+    machine.vm.provision "shell" do |s|
+      s.path = "script.sh"
+      s.args = name
+    end
+  end
+end
+
+Vagrant.configure("2") do |config|
+  setup_vm(config, "etachottS", "192.168.56.110")
+  setup_vm(config, "etachottSW", "192.168.56.111")
+end
