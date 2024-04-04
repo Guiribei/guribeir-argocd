@@ -1,30 +1,46 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-def setup_vm(config, name, ip)
-  config.vm.define name do |machine|
-    machine.vm.box = "generic/alpine319"
-    machine.vm.hostname = name
-    machine.vm.network "private_network", ip: ip, auto_config: false
+Vagrant.configure("2") do |config|
+  config.vm.define "etachottS" do |machine1|
+    machine1.vm.box = "generic/alpine319"
+    machine1.vm.hostname = "etachottS"
+    machine1.vm.network "private_network", ip: "192.168.56.110", auto_config: false
 
-    machine.vm.provision "shell", run: "always", inline: "ifconfig eth1 #{ip} netmask 255.255.255.0 up"
+    machine1.vm.provision "shell", run: "always", inline: "ifconfig eth1 192.168.56.110 netmask 255.255.255.0 up"
 
-    machine.vm.provider "virtualbox" do |vb|
+    machine1.vm.provider "virtualbox" do |vb|
       vb.memory = "512"
-      vb.customize ["modifyvm", :id, "--name", name]
+      vb.customize ["modifyvm", :id, "--name", "etachottS"]
       vb.cpus = 1
-      vb.name = name
+      vb.name = "etachottS"
       vb.gui = false
     end
 
-    machine.vm.provision "shell" do |s|
+    machine1.vm.provision "shell" do |s|
       s.path = "script.sh"
-      s.args = name
+      s.args = "etachottS"
     end
   end
-end
 
-Vagrant.configure("2") do |config|
-  setup_vm(config, "etachottS", "192.168.56.110")
-  setup_vm(config, "etachottSW", "192.168.56.111")
+  config.vm.define "etachottSW" do |machine2|
+    machine2.vm.box = "generic/alpine319"
+    machine2.vm.hostname = "etachottSW"
+    machine2.vm.network "private_network", ip: "192.168.56.111", auto_config: false
+
+    machine2.vm.provision "shell", run: "always", inline: "ifconfig eth1 192.168.56.111 netmask 255.255.255.0 up"
+
+    machine2.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+      vb.customize ["modifyvm", :id, "--name", "etachottSW"]
+      vb.cpus = 1
+      vb.name = "etachottSW"
+      vb.gui = false
+    end
+
+    machine2.vm.provision "shell" do |s|
+      s.path = "script.sh"
+      s.args = "etachottSW"
+    end
+  end
 end
