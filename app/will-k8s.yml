@@ -23,14 +23,13 @@ spec:
 ---
 apiVersion: v1
 kind: Service
-metadata:
+metadata: 
   name: will-svc
-  namespace: dev
-  labels:
-    app: will-svc
+  namespace: dev 
 spec:
-  selector:
-    app: will-pod
+  type: LoadBalancer  
   ports:
-    - port: 80
-      targetPort: 8888
+  - port: 8888         
+    targetPort: 8888   
+  selector:  
+    app: will-pod
