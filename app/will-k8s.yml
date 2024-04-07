@@ -29,6 +29,7 @@ metadata:
   labels:
     app: will-svc
 spec:
+  type: LoadBalancer
   selector:
     app: will-pod
   ports:
