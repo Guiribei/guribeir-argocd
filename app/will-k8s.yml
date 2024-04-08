@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: will-cnt
-        image: edudocerrado/iot-app:v1
+        image: edudocerrado/iot-app:v2
         ports:
         - containerPort: 8081
 ---
