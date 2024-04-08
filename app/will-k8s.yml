@@ -19,7 +19,7 @@ spec:
       - name: will-cnt
         image: edudocerrado/iot-app:v1
         ports:
-        - containerPort: 8888
+        - containerPort: 8081
 ---
 apiVersion: v1
 kind: Service
@@ -33,5 +33,5 @@ spec:
   selector:
     app: will-pod
   ports:
-    - port: 8888
-      targetPort: 8888
+    - port: 8081
+      targetPort: 8081
